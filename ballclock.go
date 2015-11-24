@@ -43,7 +43,7 @@ func main() {
 			}
 			minCount = tmp
 		}
-
+		
 		c, err := clock.New(int(ballCount))
 		if err != "" {
 			fmt.Println("ERROR CREATING CLOCK. ERROR: " + err)
@@ -55,7 +55,7 @@ func main() {
 			fmt.Printf("%d balls cycle after %d days\n", ballCount, i/1440)
 		} else {
 			data, _ := json.Marshal(config)
-			fmt.Println(string(data))
+			fmt.Println(i,string(data))
 		}
 	}
 }
