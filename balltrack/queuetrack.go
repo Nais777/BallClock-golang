@@ -32,7 +32,7 @@ func (q *QueueTrack) IsOriginalConfig() bool {
 	}
 	
 	for i := uint8(0); i < uint8(cap(q.balls)); i++ {
-		if q.balls[i].Id != i {
+		if q.balls[i].Id != i+1 {
 			return false
 		}
 	}
@@ -44,7 +44,7 @@ func NewQueueTrack(cap uint8) *QueueTrack {
 	q := new(QueueTrack)
 	q.ballTrack = newBallTrack(cap)
 	
-	for i := uint8(0); i < cap; i++ {
+	for i := uint8(1); i <= cap; i++ {
 		q.balls = append(q.balls, ball.New(i))
 	}
 	

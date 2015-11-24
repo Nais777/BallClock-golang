@@ -9,10 +9,9 @@ type TimeTrack struct {
 }
 
 func (t *TimeTrack) getReverseBalls() []*ball.Ball{
-	b := make([]*ball.Ball, 0, cap(t.balls))
-	for i := (len(t.balls)/2)-1; i >= 0; i-- {
-		opp := len(t.balls) - 1 - i
-		t.balls[i], t.balls[opp] = t.balls[opp], t.balls[i]
+	b := make([]*ball.Ball, len(t.balls), cap(t.balls))
+	for i := len(t.balls) - 1; i >= 0; i-- {
+		b[len(t.balls) - 1 - i] = t.balls[i]
 	}
 
 	return b

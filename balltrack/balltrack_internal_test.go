@@ -56,4 +56,19 @@ func TestAddBall(t *testing.T){
 	}
 }
 
+func TestGetContents(t *testing.T){
+	bt := newBallTrack(5)
+	e := []uint8{0,1,2,3}
+	for i := range e {
+		bt.addBall(ball.New(e[i]))
+	}
+
+	c := bt.GetContentIds()
+	for i := range e {
+		if c[i] != e[i] {
+			t.Errorf("Get Contents failed, expected %d, actual %d", e[i], c[i])
+		}
+	}
+}
+
 

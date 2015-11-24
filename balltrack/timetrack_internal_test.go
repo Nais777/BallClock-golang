@@ -33,6 +33,11 @@ func TestGetReverseBalls(t *testing.T){
 	}
 		
 	rb := tr.getReverseBalls()
+
+	if len(rb) == 0 {
+		t.Errorf("Get Reverse Balls Failed. Expected len(rb) == %d, actual == %d", len(c.out), len(rb))
+	}
+
 	for i := range rb {
 		if rb[i].Id != c.out[i] {
 			t.Errorf("TestGetReverseBalls Failed. Expected %d, actual %d.", c.out[i], rb[i].Id)
