@@ -21,10 +21,10 @@ func (t *ballTrack) addBall(b *ball.Ball) bool {
 	return !f
 }
 
-func (t *ballTrack) GetContentIds() []uint8 {
-	b := make([]uint8, len(t.balls), cap(t.balls))
+func (t *ballTrack) GetContentIds() []int {
+	b := make([]int, len(t.balls), cap(t.balls))
 	for i := range t.balls {
-		b[i] = t.balls[i].Id
+		b[i] = int(t.balls[i].Id)
 	}
 
 	return b

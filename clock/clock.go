@@ -40,12 +40,12 @@ func (c *Clock) getTrackState() *ClockState {
 	return s
 }
 
-func (c *Clock) Run(runMin int) (s int, state *ClockState) {
+func (c *Clock) Run(runMin int64) (s int64, state *ClockState) {
 	if runMin == 0 {
 		return 0, c.getTrackState()
 	}
 
-	i := 0
+	i := int64(0)
 
 	for {
 		returnBall := true

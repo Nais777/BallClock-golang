@@ -53,10 +53,10 @@ func TestRunLimit(t *testing.T){
         _, s := c.Run(325)
 
         e := new(ClockState)
-        e.Min = []uint8{}
-        e.FiveMin = []uint8{22,13,25,3,7}
-        e.Hour = []uint8{6,12,17,4,15}
-        e.Main = []uint8{11,5,26,18,2,30,19,8,24,10,29,20,16,21,28,1,23,14,27,9}
+        e.Min = []int{}
+        e.FiveMin = []int{22,13,25,3,7}
+        e.Hour = []int{6,12,17,4,15}
+        e.Main = []int{11,5,26,18,2,30,19,8,24,10,29,20,16,21,28,1,23,14,27,9}
 
         if len(s.Min) != len(e.Min) {
 		t.Errorf("Run Limit Failed. len(s.Min) == %d, expected %d", len(s.Min), len(e.Min))
