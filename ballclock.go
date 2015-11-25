@@ -17,9 +17,14 @@ func main() {
 	for {
 		text, _ := reader.ReadString('\n')
 		s := strings.Split(strings.TrimSuffix(text, "\n"), " ");
+		
 		if len(s) == 0 || len(s) > 2 {
-			fmt.Println("INVALID NUMBER OF ARGUMENTS. Must be either 1 or 2 numbers")
+			fmt.Println("INVALID NUMBER OF ARGUMENTS.")
 			continue
+		}
+
+		if strings.ToUpper(s[0]) == "EXIT" {
+			os.Exit(0)
 		}
 
 		ballCount, err1 := strconv.ParseInt(s[0], 10, 64)

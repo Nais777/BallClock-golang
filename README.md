@@ -25,4 +25,4 @@ it takes for the balls to cycle so that they are in their original order.
 In the case that the second number is supplied, the program will output what the current
 ball configuration of the clock is.
 
-To exit, press ctrl+c
+To exit, type exit and press enter
