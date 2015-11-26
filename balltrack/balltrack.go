@@ -6,24 +6,26 @@ import (
 
 type ballTrack struct {
 	balls []*ball.Ball
+	currentPos int
 }
 
 func (t *ballTrack) isFull() bool {
-	return len(t.balls) == cap(t.balls)
+	return t.currentPos == cap(t.balls)
 }
 
 func (t *ballTrack) addBall(b *ball.Ball) bool {
 	f := t.isFull()
 	if !f {
-		t.balls = append(t.balls, b)
+		t.balls[t.currentPos] = b
+		t.currentPos += 1	 
 	}
 
 	return !f
 }
 
 func (t *ballTrack) GetContentIds() []int {
-	b := make([]int, len(t.balls), cap(t.balls))
-	for i := range t.balls {
+	b := make([]int, t.currentPos, cap(t.balls))
+	for i := 0; i < t.currentPos; i++ {
 		b[i] = int(t.balls[i].Id)
 	}
 
@@ -31,7 +33,8 @@ func (t *ballTrack) GetContentIds() []int {
 }
 
 func newBallTrack(cap uint8) *ballTrack {
-	p := new(ballTrack)
-	p.balls = make([]*ball.Ball, 0, cap)
-	return p
+	t := new(ballTrack)
+	t.balls = make([]*ball.Ball, cap, cap)
+	t.currentPos = 0
+	return t
 }

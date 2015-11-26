@@ -8,23 +8,23 @@ type TimeTrack struct {
 	*ballTrack
 }
 
-func (t *TimeTrack) getReverseBalls() []*ball.Ball{
-	b := make([]*ball.Ball, len(t.balls), cap(t.balls))
-	for i := len(t.balls) - 1; i >= 0; i-- {
-		b[len(t.balls) - 1 - i] = t.balls[i]
+func (t *TimeTrack) ReverseBalls() {
+	for i := (t.currentPos - 1)/2; i >= 0; i-- {
+		opp := t.currentPos - 1 - i
+		t.balls[i], t.balls[opp] = t.balls[opp], t.balls[i]
 	}
-
-	return b
 } 
 
 func (t *TimeTrack) clearTimeTrack(){
-	t.balls = make([]*ball.Ball, 0, cap(t.balls))
+	t.balls = make([]*ball.Ball, cap(t.balls), cap(t.balls))
+	t.currentPos = 0
 }
 
 func (t *TimeTrack) Increment(b *ball.Ball) []*ball.Ball{
 	suc := t.addBall(b)
 	if !suc {
-		ret := t.getReverseBalls()
+		t.ReverseBalls()
+		ret := t.balls
 		t.clearTimeTrack()
 		return ret
 	}

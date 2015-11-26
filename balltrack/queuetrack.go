@@ -11,9 +11,11 @@ type QueueTrack struct {
 func (q *QueueTrack) GetBall() *ball.Ball {
 	b := q.balls[0]
 	
-	tmp := make([]*ball.Ball, len(q.balls) -1, cap(q.balls))
+	tmp := make([]*ball.Ball, len(q.balls), cap(q.balls))
 	copy(tmp, q.balls[1:])
 	q.balls = tmp
+
+	q.currentPos -= 1
 	
 	return b
 }
@@ -23,7 +25,9 @@ func (q *QueueTrack) ReturnBall(b *ball.Ball) {
 }
 
 func (q *QueueTrack) ReturnBalls(b []*ball.Ball) {
-	q.balls = append(q.balls, b...)
+	for i := range b {
+		q.addBall(b[i])
+	}
 }
 
 func (q *QueueTrack) IsOriginalConfig() bool {
@@ -44,8 +48,8 @@ func NewQueueTrack(cap uint8) *QueueTrack {
 	q := new(QueueTrack)
 	q.ballTrack = newBallTrack(cap)
 	
-	for i := uint8(1); i <= cap; i++ {
-		q.balls = append(q.balls, ball.New(i))
+	for i := uint8(0); i < cap; i++ {
+		q.addBall(ball.New(i+1))
 	}
 	
 	return q

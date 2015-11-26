@@ -63,7 +63,7 @@ func (c *Clock) Run(runMin int64) (s int64, state *ClockState) {
 		if returnBall {
 			c.ballQueue.ReturnBall(b)
 
-			if runMin == 0 && c.ballQueue.IsOriginalConfig() {
+			if runMin == -1 && c.ballQueue.IsOriginalConfig() {
 				return i+1, c.getTrackState()
 			}
 		}
