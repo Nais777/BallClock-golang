@@ -9,7 +9,7 @@ import (
 
 	"encoding/json"
 
-	"github.com/Nais777/ballclock-rakuten/ballclock"
+	"github.com/Nais777/BallClock-golang/ballclock"
 )
 
 var reader *bufio.Reader
