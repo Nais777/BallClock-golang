@@ -135,10 +135,10 @@ func Benchmark() {
 
 		start := time.Now()
 
-		CycleClock(c)
+		t := CycleClock(c)
 
 		duration := time.Since(start)
 
-		fmt.Printf("Ballclock with %v balls took %s\n", i, duration)
+		fmt.Printf("Ballclock with %v balls took %s; %v days\n", i, duration, t/1440)
 	}
 }

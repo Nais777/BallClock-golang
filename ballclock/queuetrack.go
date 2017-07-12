@@ -35,18 +35,14 @@ func (q *queueTrack) getBall() *ball {
 
 //returnBalls returns a ball to the queue
 func (q *queueTrack) returnBall(b *ball) {
-	q.addBall(b)
+	q.balls = append(q.balls, b)
+	q.currentLen = len(q.balls)
 }
 
 //returnBalls returns multiple balls to the queue
 func (q *queueTrack) returnBalls(b []*ball) {
-	tmp := make([]*ball, len(q.balls), cap(q.balls))
-	copy(tmp, q.balls)
-	q.balls = tmp
-
-	for i := range b {
-		q.addBall(b[i])
-	}
+	q.balls = append(q.balls, b...)
+	q.currentLen = len(q.balls)
 }
 
 //isOriginalConfig returns true or false indicating if the track is full
@@ -56,7 +52,7 @@ func (q *queueTrack) isOriginalConfig() bool {
 		return false
 	}
 
-	for i := uint8(0); i < uint8(cap(q.balls)); i++ {
+	for i := uint8(0); i < uint8(q.capacity); i++ {
 		if q.balls[i].id != i+1 {
 			return false
 		}

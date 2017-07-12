@@ -4,19 +4,21 @@ package ballclock
 type ballTrack struct {
 	balls      []*ball
 	currentLen int
+	capacity   int
 }
 
 //newBallTrack returns a pointer to a ball track
 func newBallTrack(cap uint8) *ballTrack {
 	return &ballTrack{
 		balls:      make([]*ball, cap, cap),
+		capacity:   int(cap),
 		currentLen: 0,
 	}
 }
 
 //isFull returns true or false if the track is full to capacity
 func (t *ballTrack) isFull() bool {
-	return t.currentLen == cap(t.balls)
+	return t.currentLen == t.capacity
 }
 
 //addBall checks if the track is full, adds the ball if it isnt and

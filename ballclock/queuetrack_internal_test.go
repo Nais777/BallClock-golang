@@ -31,10 +31,9 @@ func TestGetBall(t *testing.T) {
 		t.Errorf("getBall Failed! Expected q.currentPos == 4, actual %d", q.currentLen)
 	}
 
-	if cap(q.balls) != 5 {
+	if cap(q.balls) != 4 {
 		t.Errorf("getBall Failed! Expected cap(q.balls) == 5, actual %d", cap(q.balls))
 	}
-
 }
 
 func TestReturnBall(t *testing.T) {
@@ -44,7 +43,7 @@ func TestReturnBall(t *testing.T) {
 	q.returnBall(b)
 
 	if q.currentLen != 5 {
-		t.Errorf("returnBall Failed. Expected q.currentPos == 5, actual %d", q.currentLen)
+		t.Errorf("returnBall Failed. Expected q.currentLen == 5, actual %d", q.currentLen)
 	}
 
 	for i := 0; i < q.currentLen; i++ {
@@ -67,8 +66,8 @@ func TestReturnBalls(t *testing.T) {
 
 	q.returnBalls(s)
 
-	if q.currentLen != 5 {
-		t.Errorf("returnBalls Failed! Expected q.currentPos == 5, actual %d", q.currentLen)
+	if len(q.balls) != 5 {
+		t.Errorf("returnBalls Failed! Expected q.currentLen == 5, actual %d", q.currentLen)
 	}
 
 	for i := 0; i < len(q.balls); i++ {
