@@ -1,7 +1,5 @@
 package ballclock
 
-//increment
-
 //timeTrack keeps track of balls for the one minute, five minute, and hour tracks
 type timeTrack struct {
 	*ballTrack

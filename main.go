@@ -9,6 +9,9 @@ import (
 
 	"encoding/json"
 
+	"errors"
+	"time"
+
 	"github.com/Nais777/BallClock-golang/ballclock"
 )
 
@@ -81,6 +84,11 @@ func ParseInput() (*Args, error) {
 		os.Exit(0)
 	}
 
+	if strings.ToUpper(s[0]) == "BENCHMARK" {
+		Benchmark()
+		return nil, errors.New("Benchmark Complete")
+	}
+
 	ballCount, err := strconv.ParseInt(s[0], 10, 64)
 	if err != nil {
 		return nil, fmt.Errorf("Error parsing ball count: %v", err.Error())
@@ -118,5 +126,19 @@ func CycleClock(c *ballclock.Clock) int {
 func RunForTickCount(c *ballclock.Clock, tickCount int64) {
 	for i := int64(0); i < tickCount; i++ {
 		c.Tick()
+	}
+}
+
+func Benchmark() {
+	for i := ballclock.MinBalls; i <= ballclock.MaxBalls; i++ {
+		c, _ := ballclock.NewClock(int64(i))
+
+		start := time.Now()
+
+		CycleClock(c)
+
+		duration := time.Since(start)
+
+		fmt.Printf("Ballclock with %v balls took %s\n", i, duration)
 	}
 }

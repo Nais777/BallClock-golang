@@ -25,11 +25,8 @@ func newQueueTrack(cap uint8) *queueTrack {
 
 //getBall gets a ball from the queuetrack
 func (q *queueTrack) getBall() *ball {
-	b := q.balls[0]
-
-	tmp := make([]*ball, len(q.balls), cap(q.balls))
-	copy(tmp, q.balls[1:])
-	q.balls = tmp
+	var b *ball
+	b, q.balls = q.balls[0], q.balls[1:]
 
 	q.currentLen--
 
@@ -43,6 +40,10 @@ func (q *queueTrack) returnBall(b *ball) {
 
 //returnBalls returns multiple balls to the queue
 func (q *queueTrack) returnBalls(b []*ball) {
+	tmp := make([]*ball, len(q.balls), cap(q.balls))
+	copy(tmp, q.balls)
+	q.balls = tmp
+
 	for i := range b {
 		q.addBall(b[i])
 	}
