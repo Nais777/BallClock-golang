@@ -12,8 +12,8 @@ func TestNewQueueTrack(t *testing.T) {
 	}
 
 	for i := 0; i < cap(q.balls); i++ {
-		if q.balls[i].id != i+1 {
-			t.Errorf("newQueueTrack Failed! Expected ball.id == %d, actual %d", i+1, q.balls[i].id)
+		if q.balls[i] != ball(i+1) {
+			t.Errorf("newQueueTrack Failed! Expected ball.id == %d, actual %d", i+1, q.balls[i])
 		}
 	}
 }
@@ -23,8 +23,8 @@ func TestGetBall(t *testing.T) {
 
 	b := q.getBall()
 
-	if b.id != 1 {
-		t.Errorf("getBall Failed! Expected ball.id == 1, actual %d", b.id)
+	if b != 1 {
+		t.Errorf("getBall Failed! Expected ball.id == 1, actual %d", b)
 	}
 
 	if len(q.balls) != 4 {
@@ -37,7 +37,7 @@ func TestGetBall(t *testing.T) {
 }
 
 func TestReturnBall(t *testing.T) {
-	e := []int{2, 3, 4, 5, 1}
+	e := []ball{2, 3, 4, 5, 1}
 	q := newQueueTrack(5)
 	b := q.getBall()
 	q.returnBall(b)
@@ -47,16 +47,16 @@ func TestReturnBall(t *testing.T) {
 	}
 
 	for i := 0; i < len(q.balls); i++ {
-		if e[i] != q.balls[i].id {
-			t.Errorf("returnBall Failed! Expected ball.id == %d, actual %d", e[i], q.balls[i].id)
+		if e[i] != q.balls[i] {
+			t.Errorf("returnBall Failed! Expected ball.id == %d, actual %d", e[i], q.balls[i])
 		}
 	}
 }
 
 func TestReturnBalls(t *testing.T) {
-	e := []int{3, 4, 5, 1, 2}
+	e := []ball{3, 4, 5, 1, 2}
 	q := newQueueTrack(5)
-	s := make([]*ball, 0, 2)
+	s := make([]ball, 0, 2)
 	s = append(s, q.getBall())
 	s = append(s, q.getBall())
 
@@ -71,8 +71,8 @@ func TestReturnBalls(t *testing.T) {
 	}
 
 	for i := 0; i < len(q.balls); i++ {
-		if e[i] != q.balls[i].id {
-			t.Errorf("ReturnBalls Failed! Expected ball.id == %d, actual %d", e[i], q.balls[i].id)
+		if e[i] != q.balls[i] {
+			t.Errorf("ReturnBalls Failed! Expected ball.id == %d, actual %d", e[i], q.balls[i])
 		}
 	}
 }

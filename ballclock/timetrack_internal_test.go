@@ -14,33 +14,27 @@ func TestNewTimeTrack(t *testing.T) {
 
 func TestReverseBalls(t *testing.T) {
 	c := struct {
-		in, out []int
-	}{[]int{0, 1, 2, 3, 4}, []int{4, 3, 2, 1, 0}}
+		in, out []ball
+	}{[]ball{0, 1, 2, 3, 4}, []ball{4, 3, 2, 1, 0}}
 
 	tr := newTimeTrack(len(c.in))
 	for b := range c.in {
-		tr.addBall(newBall(c.in[b]))
+		tr.addBall(c.in[b])
 	}
 
 	tr.reverseBalls()
 
 	for i := range tr.balls {
-		if tr.balls[i].id != c.out[i] {
-			t.Errorf("TestGetReverseBalls Failed. Expected %d, actual %d.", c.out[i], tr.balls[i].id)
+		if tr.balls[i] != c.out[i] {
+			t.Errorf("TestGetReverseBalls Failed. Expected %d, actual %d.", c.out[i], tr.balls[i])
 		}
 	}
 }
 
 func TestClearTimeTrack(t *testing.T) {
 	tr := newTimeTrack(5)
-	tr.balls = make([]*ball, 5, 5)
+	tr.balls = make([]ball, 5, 5)
 	tr.clearTimeTrack()
-
-	for i := range tr.balls {
-		if tr.balls[i] != nil {
-			t.Errorf("Clear Time Track Failed! tr.balls[%d] != nil", i)
-		}
-	}
 
 	if len(tr.balls) != 0 {
 		t.Errorf("clearTimeTrack failed! Expected tr.currentPos == 0, actual %d", len(tr.balls))
@@ -49,13 +43,13 @@ func TestClearTimeTrack(t *testing.T) {
 
 func TestIncrement(t *testing.T) {
 	tr := newTimeTrack(1)
-	b := tr.increment(newBall(0))
+	b := tr.increment(0)
 
 	if b != nil {
 		t.Errorf("Increment failed! Expected nil, got data")
 	}
 
-	b = tr.increment(newBall(1))
+	b = tr.increment(1)
 
 	if b == nil {
 		t.Errorf("Increment failed! Expected data, got nil")

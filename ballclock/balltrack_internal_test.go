@@ -22,7 +22,7 @@ func TestIsFull(t *testing.T) {
 	}
 
 	bt.balls = bt.balls[0 : len(bt.balls)+1]
-	bt.balls[0] = newBall(0)
+	bt.balls[0] = 5
 	suc = bt.isFull()
 	if !suc {
 		t.Errorf("isFull() failed! Expected true, actual %t", suc)
@@ -31,15 +31,13 @@ func TestIsFull(t *testing.T) {
 
 func TestAddBall(t *testing.T) {
 	bt := newBallTrack(1)
-	b := newBall(1)
-	suc := bt.addBall(b)
+	suc := bt.addBall(1)
 
 	if !suc {
 		t.Errorf("Add Ball failed! Expected true, actual %t", suc)
 	}
 
-	b = newBall(2)
-	suc = bt.addBall(b)
+	suc = bt.addBall(2)
 
 	if suc {
 		t.Errorf("Add Ball failed! Expected false, actual %t", suc)
@@ -48,14 +46,14 @@ func TestAddBall(t *testing.T) {
 
 func TestGetContents(t *testing.T) {
 	bt := newBallTrack(5)
-	e := []int{0, 1, 2, 3}
+	e := []ball{0, 1, 2, 3}
 	for i := range e {
-		bt.addBall(newBall(e[i]))
+		bt.addBall(e[i])
 	}
 
 	c := bt.getContentIds()
 	for i := range e {
-		if c[i] != e[i] {
+		if c[i] != int(e[i]) {
 			t.Errorf("Get Contents failed, expected %d, actual %d", e[i], c[i])
 		}
 	}

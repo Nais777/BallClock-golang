@@ -15,27 +15,27 @@ func newQueueTrack(cap int) *queueTrack {
 	}
 
 	for i := 0; i < cap; i++ {
-		q.addBall(newBall(i + 1))
+		q.addBall(ball(i + 1))
 	}
 
 	return q
 }
 
 //getBall gets a ball from the queuetrack
-func (q *queueTrack) getBall() *ball {
-	var b *ball
+func (q *queueTrack) getBall() ball {
+	var b ball
 	b, q.balls = q.balls[0], q.balls[1:]
 
 	return b
 }
 
 //returnBalls returns a ball to the queue
-func (q *queueTrack) returnBall(b *ball) {
+func (q *queueTrack) returnBall(b ball) {
 	q.balls = append(q.balls, b)
 }
 
 //returnBalls returns multiple balls to the queue
-func (q *queueTrack) returnBalls(b []*ball) {
+func (q *queueTrack) returnBalls(b []ball) {
 	q.balls = append(q.balls, b...)
 }
 
@@ -47,7 +47,7 @@ func (q *queueTrack) isOriginalConfig() bool {
 	}
 
 	for i := 0; i < q.maxCapacity; i++ {
-		if q.balls[i].id != i+1 {
+		if int(q.balls[i]) != i+1 {
 			return false
 		}
 	}

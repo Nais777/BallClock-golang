@@ -28,7 +28,7 @@ func (t *timeTrack) clearTimeTrack() {
 
 //increment adds a ball to the track returning the overflow balls
 //if the track is already full.
-func (t *timeTrack) increment(b *ball) []*ball {
+func (t *timeTrack) increment(b ball) []ball {
 	suc := t.addBall(b)
 	if !suc {
 		t.reverseBalls()
