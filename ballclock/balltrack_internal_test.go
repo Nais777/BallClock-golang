@@ -6,11 +6,8 @@ import (
 
 func TestNewBallTrack(t *testing.T) {
 	bt := newBallTrack(5)
-	if len(bt.balls) != 5 {
-		t.Errorf("newBallTrack Test Failed! Expected len(bt.balls) == 5, actual %d", len(bt.balls))
-	}
-	if bt.balls[0] != nil {
-		t.Errorf("ballTrack Test Failed! Expected bt.balls[0] == nil")
+	if len(bt.balls) != 0 {
+		t.Errorf("newBallTrack Test Failed! Expected len(bt.balls) == 0, actual %d", len(bt.balls))
 	}
 	if cap(bt.balls) != 5 {
 		t.Errorf("newBallTrack Test Failed! Expected cap(bt.balls) == 5, actual %d", cap(bt.balls))
@@ -24,8 +21,8 @@ func TestIsFull(t *testing.T) {
 		t.Errorf("isFull() failed! Expected false, actual %t", suc)
 	}
 
+	bt.balls = bt.balls[0 : len(bt.balls)+1]
 	bt.balls[0] = newBall(0)
-	bt.currentLen++
 	suc = bt.isFull()
 	if !suc {
 		t.Errorf("isFull() failed! Expected true, actual %t", suc)

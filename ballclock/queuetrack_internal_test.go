@@ -7,8 +7,8 @@ import (
 func TestNewQueueTrack(t *testing.T) {
 	q := newQueueTrack(127)
 
-	if q.currentLen != 127 {
-		t.Errorf("newQueueTrack Failed! Expected q.currentPos == 127, actual %d", q.currentLen)
+	if len(q.balls) != 127 {
+		t.Errorf("newQueueTrack Failed! Expected q.currentPos == 127, actual %d", len(q.balls))
 	}
 
 	for i := 0; i < cap(q.balls); i++ {
@@ -27,8 +27,8 @@ func TestGetBall(t *testing.T) {
 		t.Errorf("getBall Failed! Expected ball.id == 1, actual %d", b.id)
 	}
 
-	if q.currentLen != 4 {
-		t.Errorf("getBall Failed! Expected q.currentPos == 4, actual %d", q.currentLen)
+	if len(q.balls) != 4 {
+		t.Errorf("getBall Failed! Expected q.currentPos == 4, actual %d", len(q.balls))
 	}
 
 	if cap(q.balls) != 4 {
@@ -42,11 +42,11 @@ func TestReturnBall(t *testing.T) {
 	b := q.getBall()
 	q.returnBall(b)
 
-	if q.currentLen != 5 {
-		t.Errorf("returnBall Failed. Expected q.currentLen == 5, actual %d", q.currentLen)
+	if len(q.balls) != 5 {
+		t.Errorf("returnBall Failed. Expected len(q.balls) == 5, actual %d", len(q.balls))
 	}
 
-	for i := 0; i < q.currentLen; i++ {
+	for i := 0; i < len(q.balls); i++ {
 		if e[i] != q.balls[i].id {
 			t.Errorf("returnBall Failed! Expected ball.id == %d, actual %d", e[i], q.balls[i].id)
 		}
@@ -60,14 +60,14 @@ func TestReturnBalls(t *testing.T) {
 	s = append(s, q.getBall())
 	s = append(s, q.getBall())
 
-	if q.currentLen != 3 {
-		t.Errorf("returnBalls Failed! Expected q.currentPos == 3, actual %d", q.currentLen)
+	if len(q.balls) != 3 {
+		t.Errorf("returnBalls Failed! Expected q.currentPos == 3, actual %d", len(q.balls))
 	}
 
 	q.returnBalls(s)
 
 	if len(q.balls) != 5 {
-		t.Errorf("returnBalls Failed! Expected q.currentLen == 5, actual %d", q.currentLen)
+		t.Errorf("returnBalls Failed! Expected len(q.balls) == 5, actual %d", len(q.balls))
 	}
 
 	for i := 0; i < len(q.balls); i++ {

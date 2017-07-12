@@ -42,8 +42,8 @@ func TestClearTimeTrack(t *testing.T) {
 		}
 	}
 
-	if tr.currentLen != 0 {
-		t.Errorf("clearTimeTrack failed! Expected tr.currentPos == 0, actual %d", tr.currentLen)
+	if len(tr.balls) != 0 {
+		t.Errorf("clearTimeTrack failed! Expected tr.currentPos == 0, actual %d", len(tr.balls))
 	}
 }
 

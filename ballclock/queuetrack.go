@@ -1,19 +1,17 @@
 package ballclock
 
-//isOriginalConfig
-//getBall
-//returnBall
-//returnBalls
-
 //queueTrack holds the available balls
 type queueTrack struct {
 	*ballTrack
+
+	maxCapacity int
 }
 
 //newQueueTrack returns a new instance of queueTrack
 func newQueueTrack(cap int) *queueTrack {
 	q := &queueTrack{
-		ballTrack: newBallTrack(cap),
+		ballTrack:   newBallTrack(cap),
+		maxCapacity: cap,
 	}
 
 	for i := 0; i < cap; i++ {
@@ -28,31 +26,27 @@ func (q *queueTrack) getBall() *ball {
 	var b *ball
 	b, q.balls = q.balls[0], q.balls[1:]
 
-	q.currentLen--
-
 	return b
 }
 
 //returnBalls returns a ball to the queue
 func (q *queueTrack) returnBall(b *ball) {
 	q.balls = append(q.balls, b)
-	q.currentLen = len(q.balls)
 }
 
 //returnBalls returns multiple balls to the queue
 func (q *queueTrack) returnBalls(b []*ball) {
 	q.balls = append(q.balls, b...)
-	q.currentLen = len(q.balls)
 }
 
 //isOriginalConfig returns true or false indicating if the track is full
 //and all balls are in the proper order.
 func (q *queueTrack) isOriginalConfig() bool {
-	if !q.isFull() {
+	if len(q.balls) != q.maxCapacity {
 		return false
 	}
 
-	for i := 0; i < q.capacity; i++ {
+	for i := 0; i < q.maxCapacity; i++ {
 		if q.balls[i].id != i+1 {
 			return false
 		}

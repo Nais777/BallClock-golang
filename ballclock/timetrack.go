@@ -14,16 +14,16 @@ func newTimeTrack(cap int) *timeTrack {
 
 //reverseBalls reverses the balls in the slice
 func (t *timeTrack) reverseBalls() {
-	for i := (t.currentLen - 1) / 2; i >= 0; i-- {
-		opp := t.currentLen - 1 - i
+	l := len(t.balls)
+	for i := (l - 1) / 2; i >= 0; i-- {
+		opp := l - 1 - i
 		t.balls[i], t.balls[opp] = t.balls[opp], t.balls[i]
 	}
 }
 
 //clearTimeTrack clears the track balls
 func (t *timeTrack) clearTimeTrack() {
-	t.balls = make([]*ball, cap(t.balls), cap(t.balls))
-	t.currentLen = 0
+	t.balls = t.balls[:0]
 }
 
 //increment adds a ball to the track returning the overflow balls
