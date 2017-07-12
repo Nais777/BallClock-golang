@@ -1,10 +1,10 @@
 package ballclock
 
 type ball struct {
-	id uint8
+	id int
 }
 
-func newBall(ballID uint8) *ball {
+func newBall(ballID int) *ball {
 	return &ball{
 		id: ballID,
 	}

@@ -65,9 +65,9 @@ func PrintMenu() {
 
 //Args contains the run arguments
 type Args struct {
-	BallCount    int64
+	BallCount    int
 	UseTickCount bool
-	TickCount    int64
+	TickCount    int
 }
 
 //ParseInput parses the user input and returns the amount of balls and the amount of cycles if specified
@@ -93,7 +93,7 @@ func ParseInput() (*Args, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Error parsing ball count: %v", err.Error())
 	}
-	args.BallCount = ballCount
+	args.BallCount = int(ballCount)
 
 	if len(s) == 2 {
 		args.UseTickCount = true
@@ -102,7 +102,7 @@ func ParseInput() (*Args, error) {
 		if err != nil {
 			return nil, fmt.Errorf("Error parsing tick count: %v", err.Error())
 		}
-		args.TickCount = tmp
+		args.TickCount = int(tmp)
 	}
 
 	return args, nil
@@ -123,15 +123,15 @@ func CycleClock(c *ballclock.Clock) int {
 }
 
 //RunForTickCount ticks the clock for the amount specified
-func RunForTickCount(c *ballclock.Clock, tickCount int64) {
-	for i := int64(0); i < tickCount; i++ {
+func RunForTickCount(c *ballclock.Clock, tickCount int) {
+	for i := 0; i < tickCount; i++ {
 		c.Tick()
 	}
 }
 
 func Benchmark() {
 	for i := ballclock.MinBalls; i <= ballclock.MaxBalls; i++ {
-		c, _ := ballclock.NewClock(int64(i))
+		c, _ := ballclock.NewClock(i)
 
 		start := time.Now()
 

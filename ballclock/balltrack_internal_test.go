@@ -53,7 +53,7 @@ func TestGetContents(t *testing.T) {
 	bt := newBallTrack(5)
 	e := []int{0, 1, 2, 3}
 	for i := range e {
-		bt.addBall(newBall(uint8(e[i])))
+		bt.addBall(newBall(e[i]))
 	}
 
 	c := bt.getContentIds()

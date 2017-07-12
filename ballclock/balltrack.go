@@ -8,10 +8,10 @@ type ballTrack struct {
 }
 
 //newBallTrack returns a pointer to a ball track
-func newBallTrack(cap uint8) *ballTrack {
+func newBallTrack(cap int) *ballTrack {
 	return &ballTrack{
 		balls:      make([]*ball, cap, cap),
-		capacity:   int(cap),
+		capacity:   cap,
 		currentLen: 0,
 	}
 }
@@ -37,7 +37,7 @@ func (t *ballTrack) addBall(b *ball) bool {
 func (t *ballTrack) getContentIds() []int {
 	b := make([]int, t.currentLen, cap(t.balls))
 	for i := 0; i < t.currentLen; i++ {
-		b[i] = int(t.balls[i].id)
+		b[i] = t.balls[i].id
 	}
 
 	return b

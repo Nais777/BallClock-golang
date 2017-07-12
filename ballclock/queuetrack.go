@@ -11,12 +11,12 @@ type queueTrack struct {
 }
 
 //newQueueTrack returns a new instance of queueTrack
-func newQueueTrack(cap uint8) *queueTrack {
+func newQueueTrack(cap int) *queueTrack {
 	q := &queueTrack{
 		ballTrack: newBallTrack(cap),
 	}
 
-	for i := uint8(0); i < cap; i++ {
+	for i := 0; i < cap; i++ {
 		q.addBall(newBall(i + 1))
 	}
 
@@ -52,7 +52,7 @@ func (q *queueTrack) isOriginalConfig() bool {
 		return false
 	}
 
-	for i := uint8(0); i < uint8(q.capacity); i++ {
+	for i := 0; i < q.capacity; i++ {
 		if q.balls[i].id != i+1 {
 			return false
 		}

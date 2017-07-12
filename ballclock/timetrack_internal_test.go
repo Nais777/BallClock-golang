@@ -14,10 +14,10 @@ func TestNewTimeTrack(t *testing.T) {
 
 func TestReverseBalls(t *testing.T) {
 	c := struct {
-		in, out []uint8
-	}{[]uint8{0, 1, 2, 3, 4}, []uint8{4, 3, 2, 1, 0}}
+		in, out []int
+	}{[]int{0, 1, 2, 3, 4}, []int{4, 3, 2, 1, 0}}
 
-	tr := newTimeTrack(uint8(len(c.in)))
+	tr := newTimeTrack(len(c.in))
 	for b := range c.in {
 		tr.addBall(newBall(c.in[b]))
 	}

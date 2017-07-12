@@ -9,10 +9,10 @@ const MinBalls = 27
 const MaxBalls = 127
 
 //minTrackCap is the ball capacity of the minute track
-const minTrackCap uint8 = 4
+const minTrackCap int = 4
 
 //fiveAndHourTrackCap is the ball capacity of the five minute and hour track
-const fiveAndHourTrackCap uint8 = 11
+const fiveAndHourTrackCap int = 11
 
 //Clock is an instance of a ballclock
 type Clock struct {
@@ -21,13 +21,13 @@ type Clock struct {
 }
 
 //NewClock returns a new instance of the clock type
-func NewClock(ballCount int64) (c *Clock, err error) {
+func NewClock(ballCount int) (c *Clock, err error) {
 	if ballCount < MinBalls || ballCount > MaxBalls {
 		return nil, fmt.Errorf("Invalid ball count. %v provided, must be between %v and %v", ballCount, MinBalls, MaxBalls)
 	}
 
 	return &Clock{
-		ballQueue: newQueueTrack(uint8(ballCount)),
+		ballQueue: newQueueTrack(ballCount),
 		timeTracks: []*timeTrack{
 			newTimeTrack(minTrackCap),
 			newTimeTrack(fiveAndHourTrackCap),

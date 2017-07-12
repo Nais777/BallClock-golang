@@ -6,7 +6,7 @@ type timeTrack struct {
 }
 
 //newTimeTrack returns a pointer to a new instance of timeTrack
-func newTimeTrack(cap uint8) *timeTrack {
+func newTimeTrack(cap int) *timeTrack {
 	return &timeTrack{
 		ballTrack: newBallTrack(cap),
 	}
