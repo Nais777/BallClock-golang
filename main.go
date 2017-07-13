@@ -51,7 +51,7 @@ func main() {
 			fmt.Printf("%v\n", string(state))
 		} else {
 			i := CycleClock(c)
-			fmt.Printf("Clock cycles after %v days.\n", i/1440)
+			fmt.Printf("Clock cycles after %v days.\n", i)
 		}
 	}
 }
@@ -112,16 +112,46 @@ func ParseInput() (*Args, error) {
 
 //CycleClock causes the clock to run until it is back in it's original configuration and returns the
 func CycleClock(c *ballclock.Clock) int {
-	i := 1
-	for ; ; i++ {
+	for i := 0; i < minutesPerDay; i++ {
 		c.Tick()
-
-		if origConfig := c.IsOriginalConfig(); origConfig {
-			break
-		}
 	}
 
-	return i
+	s := c.GetTrackState().Main
+
+	return 1 + CalculateBallCycle(s)
+}
+
+//CalculateBallCycle calculates the ball position after 24 hrs
+func CalculateBallCycle(s []int) int {
+	tmp := make([]int, len(s), len(s))
+	mapping := make([]int, len(s), len(s))
+	copy(tmp, s)
+	copy(mapping, s)
+
+	var c int
+	for c = 1; ; c++ {
+		for i, k := range mapping {
+			s[i] = tmp[k]
+		}
+
+		original := true
+		for i, k := range s {
+			if i == k {
+				continue
+			}
+
+			original = false
+			break
+		}
+
+		if original {
+			break
+		}
+
+		copy(tmp, s)
+	}
+
+	return c
 }
 
 //RunForTickCount ticks the clock for the amount specified
@@ -141,6 +171,6 @@ func Benchmark() {
 
 		duration := time.Since(start)
 
-		fmt.Printf("Ballclock with %v balls took %s; %v days\n", i, duration, t/1440)
+		fmt.Printf("Ballclock with %v balls took %s; %v days\n", i, duration, t)
 	}
 }
