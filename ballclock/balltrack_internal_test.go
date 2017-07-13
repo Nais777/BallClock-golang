@@ -46,7 +46,7 @@ func TestAddBall(t *testing.T) {
 
 func TestGetContents(t *testing.T) {
 	bt := newBallTrack(5)
-	e := []ball{0, 1, 2, 3}
+	e := []int{0, 1, 2, 3}
 	for i := range e {
 		bt.addBall(e[i])
 	}

@@ -14,8 +14,8 @@ func TestNewTimeTrack(t *testing.T) {
 
 func TestReverseBalls(t *testing.T) {
 	c := struct {
-		in, out []ball
-	}{[]ball{0, 1, 2, 3, 4}, []ball{4, 3, 2, 1, 0}}
+		in, out []int
+	}{[]int{0, 1, 2, 3, 4}, []int{4, 3, 2, 1, 0}}
 
 	tr := newTimeTrack(len(c.in))
 	for b := range c.in {
@@ -33,7 +33,7 @@ func TestReverseBalls(t *testing.T) {
 
 func TestClearTimeTrack(t *testing.T) {
 	tr := newTimeTrack(5)
-	tr.balls = make([]ball, 5, 5)
+	tr.balls = make([]int, 5, 5)
 	tr.clearTimeTrack()
 
 	if len(tr.balls) != 0 {

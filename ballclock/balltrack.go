@@ -1,16 +1,14 @@
 package ballclock
 
-type ball int
-
 //ballTrack is a base structure for the time and queue tracks
 type ballTrack struct {
-	balls []ball
+	balls []int
 }
 
 //newBallTrack returns a pointer to a ball track
 func newBallTrack(cap int) *ballTrack {
 	return &ballTrack{
-		balls: make([]ball, 0, cap),
+		balls: make([]int, 0, cap),
 	}
 }
 
@@ -21,7 +19,7 @@ func (t *ballTrack) isFull() bool {
 
 //addBall checks if the track is full, adds the ball if it isnt and
 //returns true or false if the ball was successfully added
-func (t *ballTrack) addBall(b ball) bool {
+func (t *ballTrack) addBall(b int) bool {
 	f := t.isFull()
 	if !f {
 		t.balls = t.balls[0 : len(t.balls)+1]
@@ -35,7 +33,7 @@ func (t *ballTrack) addBall(b ball) bool {
 func (t *ballTrack) getContentIds() []int {
 	b := make([]int, len(t.balls), cap(t.balls))
 	for i := 0; i < len(t.balls); i++ {
-		b[i] = int(t.balls[i])
+		b[i] = t.balls[i]
 	}
 
 	return b

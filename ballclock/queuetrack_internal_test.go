@@ -12,7 +12,7 @@ func TestNewQueueTrack(t *testing.T) {
 	}
 
 	for i := 0; i < cap(q.balls); i++ {
-		if q.balls[i] != ball(i+1) {
+		if q.balls[i] != int(i+1) {
 			t.Errorf("newQueueTrack Failed! Expected ball.id == %d, actual %d", i+1, q.balls[i])
 		}
 	}
@@ -37,7 +37,7 @@ func TestGetBall(t *testing.T) {
 }
 
 func TestReturnBall(t *testing.T) {
-	e := []ball{2, 3, 4, 5, 1}
+	e := []int{2, 3, 4, 5, 1}
 	q := newQueueTrack(5)
 	b := q.getBall()
 	q.returnBall(b)
@@ -54,9 +54,9 @@ func TestReturnBall(t *testing.T) {
 }
 
 func TestReturnBalls(t *testing.T) {
-	e := []ball{3, 4, 5, 1, 2}
+	e := []int{3, 4, 5, 1, 2}
 	q := newQueueTrack(5)
-	s := make([]ball, 0, 2)
+	s := make([]int, 0, 2)
 	s = append(s, q.getBall())
 	s = append(s, q.getBall())
 

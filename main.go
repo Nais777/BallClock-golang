@@ -17,6 +17,8 @@ import (
 
 var reader *bufio.Reader
 
+const minutesPerDay = 1440
+
 func init() {
 	reader = bufio.NewReader(os.Stdin)
 }
