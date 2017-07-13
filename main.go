@@ -125,13 +125,14 @@ func CycleClock(c *ballclock.Clock) int {
 func CalculateBallCycle(s []int) int {
 	tmp := make([]int, len(s), len(s))
 	mapping := make([]int, len(s), len(s))
+
 	copy(tmp, s)
 	copy(mapping, s)
 
 	var c int
 	for c = 1; ; c++ {
-		for i, k := range mapping {
-			s[i] = tmp[k]
+		for k, v := range mapping {
+			s[k] = tmp[v]
 		}
 
 		original := true
