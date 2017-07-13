@@ -15,7 +15,7 @@ func newQueueTrack(cap int) *queueTrack {
 	}
 
 	for i := 0; i < cap; i++ {
-		q.addBall(int(i + 1))
+		q.addBall(i)
 	}
 
 	return q
@@ -47,7 +47,7 @@ func (q *queueTrack) isOriginalConfig() bool {
 	}
 
 	for i := 0; i < q.maxCapacity; i++ {
-		if q.balls[i] != i+1 {
+		if q.balls[i] != i {
 			return false
 		}
 	}
