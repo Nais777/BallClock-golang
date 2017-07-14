@@ -65,3 +65,31 @@ func (c *Clock) Tick() {
 
 	c.ballQueue.returnBall(b)
 }
+
+//TickFive causes the clock to tick 5 minutes
+func (c *Clock) TickFive() {
+	o, b, balls := c.ballQueue.balls[0:4], c.ballQueue.balls[4], c.ballQueue.balls[5:]
+	c.ballQueue.balls = balls
+	c.ballQueue.returnBalls(reverseSlice(o))
+
+	for t := 1; t < 3; t++ {
+		overFlow := c.timeTracks[t].increment(b)
+		if overFlow == nil {
+			return
+		}
+
+		c.ballQueue.returnBalls(overFlow)
+	}
+
+	c.ballQueue.returnBall(b)
+}
+
+func reverseSlice(s []int) []int {
+	l := len(s)
+	for i := (l - 1) / 2; i >= 0; i-- {
+		opp := l - 1 - i
+		s[i], s[opp] = s[opp], s[i]
+	}
+
+	return s
+}
