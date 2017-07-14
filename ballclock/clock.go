@@ -115,9 +115,9 @@ func addOrOverflow(s []int, b int) (overflow []int, slice []int) {
 }
 
 func reverseSlice(s []int) []int {
-	l := len(s)
-	for i := (l - 1) / 2; i >= 0; i-- {
-		opp := l - 1 - i
+	l := len(s) - 1
+	for i := l / 2; i >= 0; i-- {
+		opp := l - i
 		s[i], s[opp] = s[opp], s[i]
 	}
 
