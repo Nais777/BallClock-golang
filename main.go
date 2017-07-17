@@ -122,18 +122,13 @@ func CycleClock(c *ballclock.Clock) int {
 		c.TickFive()
 	}
 
-	s := c.GetTrackState().Main
-
-	return 1 + CalculateBallCycle(s)
+	return 1 + CalculateBallCycle(c.BallQueue)
 }
 
 //CalculateBallCycle calculates the ball position after 24 hrs
 func CalculateBallCycle(s []int) int {
-	tmp := make([]int, len(s), len(s))
-	mapping := make([]int, len(s), len(s))
-
-	copy(tmp, s)
-	copy(mapping, s)
+	tmp := append([]int{}, s...)
+	mapping := append([]int{}, s...)
 
 	var c int
 	for c = 1; ; c++ {

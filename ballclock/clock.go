@@ -17,7 +17,7 @@ const fiveAndHourTrackCap int = 11
 //Clock is an instance of a ballclock
 type Clock struct {
 	timeTracks [][]int
-	ballQueue  []int
+	BallQueue  []int
 	ballCount  int
 }
 
@@ -28,7 +28,7 @@ func NewClock(ballCount int) (*Clock, error) {
 	}
 
 	c := &Clock{
-		ballQueue: make([]int, ballCount, ballCount+1152+253+11),
+		BallQueue: make([]int, ballCount, ballCount+1152+253+11),
 		timeTracks: [][]int{
 			make([]int, 0, minTrackCap),
 			make([]int, 0, fiveAndHourTrackCap),
@@ -37,7 +37,7 @@ func NewClock(ballCount int) (*Clock, error) {
 	}
 
 	for i := 0; i < ballCount; i++ {
-		c.ballQueue[i] = i
+		c.BallQueue[i] = i
 	}
 
 	return c, nil
@@ -49,18 +49,18 @@ func (c *Clock) GetTrackState() *State {
 		Min:     c.timeTracks[0],
 		FiveMin: c.timeTracks[1],
 		Hour:    c.timeTracks[2],
-		Main:    c.ballQueue,
+		Main:    c.BallQueue,
 	}
 }
 
 //IsOriginalConfig returns true or false indicating if the Clock is in the same state immediatly after creation.
 func (c *Clock) IsOriginalConfig() bool {
-	if len(c.ballQueue) != c.ballCount {
+	if len(c.BallQueue) != c.ballCount {
 		return false
 	}
 
 	for i := 0; i < c.ballCount; i++ {
-		if c.ballQueue[i] != i {
+		if c.BallQueue[i] != i {
 			return false
 		}
 	}
@@ -71,7 +71,7 @@ func (c *Clock) IsOriginalConfig() bool {
 //Tick increments the Clock by one minute
 func (c *Clock) Tick() {
 	var b int
-	b, c.ballQueue = c.ballQueue[0], c.ballQueue[1:]
+	b, c.BallQueue = c.BallQueue[0], c.BallQueue[1:]
 
 	for i := 0; i < 3; i++ {
 		cap := fiveAndHourTrackCap
@@ -84,15 +84,15 @@ func (c *Clock) Tick() {
 		}
 	}
 
-	c.ballQueue = append(c.ballQueue, b)
+	c.BallQueue = append(c.BallQueue, b)
 }
 
 //TickFive causes the clock to tick 5 minutes
 func (c *Clock) TickFive() {
 	var b int
 
-	reverseSlice(c.ballQueue[0:4])
-	b, c.ballQueue = c.ballQueue[4], append(c.ballQueue[5:], c.ballQueue[0:4]...)
+	reverseSlice(c.BallQueue[0:4])
+	b, c.BallQueue = c.BallQueue[4], append(c.BallQueue[5:], c.BallQueue[0:4]...)
 
 	for i := 1; i < 3; i++ {
 		if o := c.addOrOverflow(i, b, fiveAndHourTrackCap); !o {
@@ -100,7 +100,7 @@ func (c *Clock) TickFive() {
 		}
 	}
 
-	c.ballQueue = append(c.ballQueue, b)
+	c.BallQueue = append(c.BallQueue, b)
 }
 
 func (c *Clock) addOrOverflow(t int, b int, cap int) bool {
@@ -110,7 +110,7 @@ func (c *Clock) addOrOverflow(t int, b int, cap int) bool {
 	}
 
 	reverseSlice(c.timeTracks[t])
-	c.ballQueue = append(c.ballQueue, c.timeTracks[t]...)
+	c.BallQueue = append(c.BallQueue, c.timeTracks[t]...)
 
 	c.timeTracks[t] = c.timeTracks[t][:0]
 
