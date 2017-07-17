@@ -28,7 +28,7 @@ func NewClock(ballCount int) (*Clock, error) {
 	}
 
 	c := &Clock{
-		ballQueue: make([]int, ballCount, ballCount),
+		ballQueue: make([]int, ballCount, ballCount+1152+253+11),
 		timeTracks: [][]int{
 			make([]int, 0, minTrackCap),
 			make([]int, 0, fiveAndHourTrackCap),
@@ -41,7 +41,6 @@ func NewClock(ballCount int) (*Clock, error) {
 	}
 
 	return c, nil
-
 }
 
 //GetTrackState returns a State object depicting the internal ball structure of the Clock
@@ -75,13 +74,14 @@ func (c *Clock) Tick() {
 	b, c.ballQueue = c.ballQueue[0], c.ballQueue[1:]
 
 	for i := 0; i < 3; i++ {
-		var o []int
-		o, c.timeTracks[i] = addOrOverflow(c.timeTracks[i], b)
-		if o == nil {
-			return
+		cap := fiveAndHourTrackCap
+		if i == 0 {
+			cap = minTrackCap
 		}
 
-		c.ballQueue = append(c.ballQueue, o...)
+		if o := c.addOrOverflow(i, b, cap); !o {
+			return
+		}
 	}
 
 	c.ballQueue = append(c.ballQueue, b)
@@ -91,35 +91,35 @@ func (c *Clock) Tick() {
 func (c *Clock) TickFive() {
 	var b int
 
-	b, c.ballQueue = c.ballQueue[4], append(c.ballQueue[5:], reverseSlice(c.ballQueue[0:4])...)
+	reverseSlice(c.ballQueue[0:4])
+	b, c.ballQueue = c.ballQueue[4], append(c.ballQueue[5:], c.ballQueue[0:4]...)
 
 	for i := 1; i < 3; i++ {
-		var o []int
-		o, c.timeTracks[i] = addOrOverflow(c.timeTracks[i], b)
-		if o == nil {
+		if o := c.addOrOverflow(i, b, fiveAndHourTrackCap); !o {
 			return
 		}
-
-		c.ballQueue = append(c.ballQueue, o...)
 	}
 
 	c.ballQueue = append(c.ballQueue, b)
 }
 
-func addOrOverflow(s []int, b int) (overflow []int, slice []int) {
-	if len(s) != cap(s) {
-		return nil, append(s, b)
+func (c *Clock) addOrOverflow(t int, b int, cap int) bool {
+	if len(c.timeTracks[t]) != cap {
+		c.timeTracks[t] = append(c.timeTracks[t], b)
+		return false
 	}
 
-	return reverseSlice(s), s[:0]
+	reverseSlice(c.timeTracks[t])
+	c.ballQueue = append(c.ballQueue, c.timeTracks[t]...)
+
+	c.timeTracks[t] = c.timeTracks[t][:0]
+
+	return true
 }
 
-func reverseSlice(s []int) []int {
+func reverseSlice(s []int) {
 	l := len(s) - 1
 	for i := l / 2; i >= 0; i-- {
-		opp := l - i
-		s[i], s[opp] = s[opp], s[i]
+		s[i], s[l-i] = s[l-i], s[i]
 	}
-
-	return s
 }
