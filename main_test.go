@@ -52,3 +52,11 @@ func BenchmarkCycle24(b *testing.B) {
 		})
 	}
 }
+
+func BenchmarkRunForTickCount(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		c, _ := ballclock.NewClock(ballclock.MaxBalls)
+
+		RunForTickCount(c, 123456789)
+	}
+}

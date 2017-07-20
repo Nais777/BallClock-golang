@@ -92,11 +92,6 @@ func ParseInput() (*Args, error) {
 		return nil, errors.New("Benchmark Complete")
 	}
 
-	if strings.ToUpper(s[0]) == "BENCHMARK5" {
-		BenchmarkTickFive()
-		return nil, errors.New("Benchmark Complete")
-	}
-
 	ballCount, err := strconv.ParseInt(s[0], 10, 64)
 	if err != nil {
 		return nil, fmt.Errorf("Error parsing ball count: %v", err.Error())
@@ -149,6 +144,7 @@ func CalculateBallCycle(s []int) int {
 				break
 			}
 
+			visited[k] = true
 			k = next
 		}
 
@@ -162,8 +158,97 @@ func CalculateBallCycle(s []int) int {
 
 //RunForTickCount ticks the clock for the amount specified
 func RunForTickCount(c *ballclock.Clock, tickCount int) {
-	for i := 0; i < tickCount; i++ {
+	for i := 0; i < fiveMinutesPerDay; i++ {
+		if tickCount < 5 {
+			break
+		}
+
+		c.TickFive()
+		tickCount -= 5
+	}
+
+	if days := tickCount / minutesPerDay; days > 0 {
+		PositionAfterDays(c.BallQueue, days)
+
+		tickCount %= minutesPerDay
+	}
+
+	for ; tickCount >= 5; tickCount -= 5 {
+		c.TickFive()
+	}
+
+	for ; tickCount > 0; tickCount-- {
 		c.Tick()
+	}
+}
+
+func PositionAfterDays(q []int, days int) {
+	visited := make([]int, len(q), len(q))
+	mapping := make([]int, len(q), len(q))
+	rotDays := make(map[int]int)
+
+	for k, v := range q {
+		mapping[v] = k
+	}
+
+	grp := 0
+	for k, v := range visited {
+		if v != 0 {
+			continue
+		}
+
+		if mapping[k] == k {
+			continue
+		}
+
+		grp++
+
+		tmp := 0
+		start := k
+		for ; ; tmp++ {
+			next := mapping[k]
+			visited[k] = grp
+			k = next
+
+			if k == start {
+				break
+			}
+		}
+
+		rotDays[grp] = tmp + 1
+	}
+
+	for grp, fullRot := range rotDays {
+		if fullRot == 0 {
+			continue
+		}
+
+		var start int
+		for k, v := range visited {
+			if v == grp {
+				start = k
+				break
+			}
+		}
+
+		for rot := days % fullRot; rot > 0; rot-- {
+			priorTmp := q[start]
+			orgin := start
+
+			for {
+				dest := mapping[orgin]
+				tmp := q[dest]
+
+				q[dest] = priorTmp
+
+				priorTmp = tmp
+				orgin = dest
+
+				if orgin == start {
+					break
+				}
+			}
+		}
 	}
 }
 
@@ -178,21 +263,5 @@ func Benchmark() {
 		duration := time.Since(start)
 
 		fmt.Printf("Ballclock with %v balls took %s; %v days\n", i, duration, t)
-	}
-}
-
-func BenchmarkTickFive() {
-	for i := ballclock.MinBalls; i <= ballclock.MaxBalls; i++ {
-		c, _ := ballclock.NewClock(i)
-
-		start := time.Now()
-
-		for t := 0; t < fiveMinutesPerDay; t++ {
-			c.TickFive()
-		}
-
-		duration := time.Since(start)
-
-		fmt.Printf("Ballclock with %v balls took %s;\n", i, duration)
 	}
 }
