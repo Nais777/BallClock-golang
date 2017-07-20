@@ -122,38 +122,42 @@ func CycleClock(c *ballclock.Clock) int {
 		c.TickFive()
 	}
 
-	return 1 + CalculateBallCycle(c.BallQueue)
+	return CalculateBallCycle(c.BallQueue)
 }
 
 //CalculateBallCycle calculates the ball position after 24 hrs
 func CalculateBallCycle(s []int) int {
-	tmp := append([]int{}, s...)
-	mapping := append([]int{}, s...)
+	visited := make([]bool, len(s), len(s))
+	mapping := make([]int, len(s), len(s))
 
-	var c int
-	for c = 1; ; c++ {
-		for k, v := range mapping {
-			s[k] = tmp[v]
-		}
-
-		original := true
-		for i, k := range s {
-			if i == k {
-				continue
-			}
-
-			original = false
-			break
-		}
-
-		if original {
-			break
-		}
-
-		copy(tmp, s)
+	for k, v := range s {
+		mapping[v] = k
 	}
 
-	return c
+	days := 1
+
+	for k, v := range visited {
+		if v {
+			continue
+		}
+
+		tmp := 1
+		start := k
+		for ; ; tmp++ {
+			next := mapping[k]
+			if next == start {
+				break
+			}
+
+			k = next
+		}
+
+		if days%tmp != 0 {
+			days *= tmp
+		}
+	}
+
+	return days
 }
 
 //RunForTickCount ticks the clock for the amount specified
