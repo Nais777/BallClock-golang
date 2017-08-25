@@ -113,142 +113,30 @@ func ParseInput() (*Args, error) {
 
 //CycleClock causes the clock to run until it is back in it's original configuration and returns the
 func CycleClock(c *ballclock.Clock) int {
-	for i := 0; i < fiveMinutesPerDay; i++ {
-		c.TickFive()
-	}
-
-	return CalculateBallCycle(c.BallQueue)
-}
-
-//CalculateBallCycle calculates the ball position after 24 hrs
-func CalculateBallCycle(s []int) int {
-	visited := make([]bool, len(s), len(s))
-	mapping := make([]int, len(s), len(s))
-
-	for k, v := range s {
-		mapping[v] = k
-	}
-
-	days := 1
-
-	for k, v := range visited {
-		if v {
-			continue
+	for d := 1; ; d++ {
+		for i := 0; i < minutesPerDay; i++ {
+			c.Tick()
 		}
 
-		tmp := 1
-		start := k
-		for ; ; tmp++ {
-			next := mapping[k]
-			if next == start {
+		orig := true
+		for i := 0; i < len(c.BallQueue); i++ {
+			if i != c.BallQueue[i] {
+				orig = false
 				break
 			}
-
-			visited[k] = true
-			k = next
 		}
 
-		if days%tmp != 0 {
-			days *= tmp
+		if orig {
+			return d
 		}
+
 	}
-
-	return days
 }
 
 //RunForTickCount ticks the clock for the amount specified
 func RunForTickCount(c *ballclock.Clock, tickCount int) {
-	for i := 0; i < fiveMinutesPerDay; i++ {
-		if tickCount < 5 {
-			break
-		}
-
-		c.TickFive()
-		tickCount -= 5
-	}
-
-	if days := tickCount / minutesPerDay; days > 0 {
-		PositionAfterDays(c.BallQueue, days)
-
-		tickCount %= minutesPerDay
-	}
-
-	for ; tickCount >= 5; tickCount -= 5 {
-		c.TickFive()
-	}
-
-	for ; tickCount > 0; tickCount-- {
+	for i := 0; i < tickCount; i++ {
 		c.Tick()
-	}
-}
-
-func PositionAfterDays(q []int, days int) {
-	visited := make([]int, len(q), len(q))
-	mapping := make([]int, len(q), len(q))
-	rotDays := make(map[int]int)
-
-	for k, v := range q {
-		mapping[v] = k
-	}
-
-	grp := 0
-	for k, v := range visited {
-		if v != 0 {
-			continue
-		}
-
-		if mapping[k] == k {
-			continue
-		}
-
-		grp++
-
-		tmp := 0
-		start := k
-		for ; ; tmp++ {
-			next := mapping[k]
-			visited[k] = grp
-			k = next
-
-			if k == start {
-				break
-			}
-		}
-
-		rotDays[grp] = tmp + 1
-	}
-
-	for grp, fullRot := range rotDays {
-		if fullRot == 0 {
-			continue
-		}
-
-		var start int
-		for k, v := range visited {
-			if v == grp {
-				start = k
-				break
-			}
-		}
-
-		for rot := days % fullRot; rot > 0; rot-- {
-			priorTmp := q[start]
-			orgin := start
-
-			for {
-				dest := mapping[orgin]
-				tmp := q[dest]
-
-				q[dest] = priorTmp
-
-				priorTmp = tmp
-				orgin = dest
-
-				if orgin == start {
-					break
-				}
-			}
-		}
 	}
 }
 
