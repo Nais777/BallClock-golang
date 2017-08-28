@@ -59,6 +59,9 @@ func (c *Clock) IsOriginalConfig() bool {
 		return false
 	}
 
+	tmp := append(make([]int, 0, c.ballCount+1152+253+11), c.BallQueue...)
+	c.BallQueue = tmp
+
 	for i := 0; i < c.ballCount; i++ {
 		if c.BallQueue[i] != i {
 			return false

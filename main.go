@@ -118,15 +118,7 @@ func CycleClock(c *ballclock.Clock) int {
 			c.Tick()
 		}
 
-		orig := true
-		for i := 0; i < len(c.BallQueue); i++ {
-			if i != c.BallQueue[i] {
-				orig = false
-				break
-			}
-		}
-
-		if orig {
+		if c.IsOriginalConfig() {
 			return d
 		}
 
