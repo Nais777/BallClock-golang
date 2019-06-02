@@ -19,7 +19,7 @@ func TestNewClock(t *testing.T) {
 		t.Errorf("New Clcok Failed. Not all time tracks created")
 	}
 
-	if c.ballQueue == nil {
+	if c.BallQueue == nil {
 		t.Errorf("New Clock Failed. BallQueue not initiated")
 	}
 
@@ -35,15 +35,15 @@ func TestTickFive(t *testing.T) {
 
 	c.TickFive()
 
-	if len(c.timeTracks[1].balls) != 1 {
-		t.Errorf("Five minute track not correct after tick 5: %v", c.timeTracks[1].balls)
+	if len(c.timeTracks[1]) != 1 {
+		t.Errorf("Five minute track not correct after tick 5: %v", c.timeTracks[1])
 	}
 
-	if c.timeTracks[1].balls[0] != 4 {
-		t.Errorf("Wrong ball in 5 minute track: %v", c.timeTracks[1].balls[0])
+	if c.timeTracks[1][0] != 4 {
+		t.Errorf("Wrong ball in 5 minute track: %v", c.timeTracks[1][0])
 	}
 
-	if len(c.ballQueue.balls) != 26 {
-		t.Errorf("Wrong length for ballQueue: %v", c.ballQueue.balls)
+	if len(c.BallQueue) != 26 {
+		t.Errorf("Wrong length for ballQueue: %v", c.BallQueue)
 	}
 }

@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/Nais777/BallClock-golang/ballclock"
+	"github.com/lamebear/BallClock-golang/ballclock"
 )
 
 func BenchmarkCycleClock(b *testing.B) {

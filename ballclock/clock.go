@@ -2,17 +2,19 @@ package ballclock
 
 import "fmt"
 
-//MinBalls is the minimum amount of balls supported by the ball clock
-const MinBalls = 27
+const (
+	//MinBalls is the minimum amount of balls supported by the ball clock
+	MinBalls = 27
 
-//MaxBalls is the maximum amount of balls supported by the ball clock
-const MaxBalls = 127
+	//MaxBalls is the maximum amount of balls supported by the ball clock
+	MaxBalls = 127
 
-//minTrackCap is the ball capacity of the minute track
-const minTrackCap int = 4
+	//minTrackCap is the ball capacity of the minute track
+	minTrackCap = 4
 
-//fiveAndHourTrackCap is the ball capacity of the five minute and hour track
-const fiveAndHourTrackCap int = 11
+	//fiveAndHourTrackCap is the ball capacity of the five minute and hour track
+	fiveAndHourTrackCap = 11
+)
 
 //Clock is an instance of a ballclock
 type Clock struct {

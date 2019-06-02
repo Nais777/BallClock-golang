@@ -12,7 +12,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/Nais777/BallClock-golang/ballclock"
+	"github.com/lamebear/BallClock-golang/ballclock"
 )
 
 var reader *bufio.Reader
